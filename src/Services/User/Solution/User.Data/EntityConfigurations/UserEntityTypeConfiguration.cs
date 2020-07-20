@@ -11,8 +11,7 @@ namespace MicroserviceDemo.Services.User.Data.EntityConfigurations
       builder.ToTable("User");
 
       builder.Property(u => u.Id)
-        .IsRequired()
-        .HasColumnName("PrimaryKey_UserId");
+        .IsRequired();
 
       builder.Property(u => u.FirstName)
         .IsRequired(true)
