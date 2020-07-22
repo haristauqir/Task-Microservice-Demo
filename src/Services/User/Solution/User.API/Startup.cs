@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using User.Data.Database;
+using MediatR;
 
 namespace User.API
 {
@@ -29,10 +30,13 @@ namespace User.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().Services
+            services.AddControllers()
+            .Services
             .AddCustomMVC(Configuration)
             .AddCustomDbContext(Configuration)
             .AddSwagger(Configuration);
+
+            services.AddMediatR(Assembly.GetExecutingAssembly());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
