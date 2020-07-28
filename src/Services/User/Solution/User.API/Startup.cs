@@ -15,6 +15,9 @@ using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using User.Data.Database;
 using MediatR;
+using MicroserviceDemo.Services.User.Service.v1.Command;
+using User.Data.Repository.v1;
+using MicroserviceDemo.Services.User.Domain.Entities;
 
 namespace User.API
 {
@@ -37,6 +40,8 @@ namespace User.API
             .AddSwagger(Configuration);
 
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.AddTransient<IRequestHandler<CreateUserCommand, AppUser>, CreateUserCommandHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,17 +52,17 @@ namespace User.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
-            app.UseRouting();
-
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseSwagger()
              .UseSwaggerUI(c =>
              {
                  c.SwaggerEndpoint("v1/swagger.json", "User.API V1");
              });
+
+            app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
