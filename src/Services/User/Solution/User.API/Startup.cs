@@ -18,6 +18,7 @@ using MediatR;
 using MicroserviceDemo.Services.User.Service.v1.Command;
 using User.Data.Repository.v1;
 using MicroserviceDemo.Services.User.Domain.Entities;
+using User.Service.v1.Query;
 
 namespace User.API
 {
@@ -42,6 +43,8 @@ namespace User.API
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<IRequestHandler<CreateUserCommand, AppUser>, CreateUserCommandHandler>();
+            services.AddTransient<IRequestHandler<GetAllUserQuery, List<AppUser>>, GetAllUserQueryHandler>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

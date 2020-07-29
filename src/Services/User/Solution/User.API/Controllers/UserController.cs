@@ -9,6 +9,7 @@ using MicroserviceDemo.Services.User.Domain.Entities;
 using User.Data.Repository.v1;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using User.Service.v1.Query;
 
 namespace User.API.Controllers
 {
@@ -19,22 +20,24 @@ namespace User.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IRepository<AppUser> _repo;
-        public UserController(IMediator mediator, IRepository<AppUser> repo)
+
+        public UserController(IMediator mediator)
         {
-            _repo = repo;
             _mediator = mediator;
         }
 
 
         [HttpGet]
-        public async Task<IEnumerable<AppUser>> Get([FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0)
+        public async Task<ActionResult<List<AppUser>>> Get()
         {
-            var root = await _repo.GetAll().ToListAsync();
-
-
-            return root;
-            
+            try
+            {
+                return await _mediator.Send(new GetAllUserQuery());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }       
         }
 
         [HttpPost]
