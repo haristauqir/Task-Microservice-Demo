@@ -15,9 +15,7 @@ namespace User.Data.Database
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new UserEntityTypeConfiguration());
+            builder.Seed();
         } 
-
-
-        
     }
 }
